@@ -1,0 +1,1 @@
+ALTER TABLE employees Modify student_grade VARCHAR(100);  

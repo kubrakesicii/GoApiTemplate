@@ -1,0 +1,1 @@
+ALTER TABLE employees ADD student_grade VARCHAR(5);

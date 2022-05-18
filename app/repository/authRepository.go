@@ -1,4 +1,4 @@
-package repositorys
+package repository
 
 import (
 	"goapitemplate/app/model/entity"
@@ -8,21 +8,15 @@ import (
 	"gorm.io/gorm"
 )
 
-type AuthRepository interface {
+type IAuthRepository interface {
 	//Login(user dto.LoginDto) dto.GetLoginDto
+	//baseRepo generic.BaseRepository
 	IsEmailExists(email string) (tx *gorm.DB)
+	//GetById(id int) entity.User
 }
 
-type authRepository struct {
-	db *gorm.DB
-}
-
-//Create new instance of UserRepository
-// Use with New func in service
-func NewAuthRepository(db *gorm.DB) AuthRepository {
-	return &authRepository{
-		db: db,
-	} //You should implement all methods of Repo int
+type AuthRepository struct {
+	DB *gorm.DB
 }
 
 func CryptoPassword(pwd []byte) string {
@@ -34,15 +28,26 @@ func CryptoPassword(pwd []byte) string {
 	return string(hash)
 }
 
-func (r *authRepository) IsEmailExists(email string) (tx *gorm.DB) {
+func (r *AuthRepository) IsEmailExists(email string) (tx *gorm.DB) {
 	var user entity.User
-	return r.db.Where("email = ?", email).Take(&user)
+	return r.DB.Where("email = ?", email).Take(&user)
 }
 
-// func (r *authRepository) Login(user dto.LoginDto) dto.GetLoginDto {
-// 	getUser := dto.GetLoginDto{}
-// 	res := r.db.Where("email = ? AND password = ?", user.Username, user.Password).Take(&getUser)
-// 	err := smapping.FillStruct(&getUser, smapping.MapFields(&res))
+// func (r *AuthRepository) GetById(id int) entity.User {
+// 	var user entity.User
 
-// 	return res
+// 	//err := r.baseRepo.FindById(user, uint(id))
+// 	if err != nil {
+// 		log.Println(err)
+// 	}
+// 	return user
+// }
+
+// func (r *authRepository) Login(user dto.LoginDto) (*dto.GetLoginDto, error) {
+// 	getUser := dto.GetLoginDto{}
+// 	res := r.DB.Where("email = ? AND password = ?", user.Username, user.Password).Take(&getUser)
+// 	//err := smapping.FillStruct(&getUser, smapping.MapFields(&res))
+
+// 	// return nil,err
+// 	// return &getUser,nil
 // }

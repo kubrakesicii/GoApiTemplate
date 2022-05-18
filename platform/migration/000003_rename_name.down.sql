@@ -1,0 +1,1 @@
+ALTER TABLE employees RENAME firstNameUp TO first_name;

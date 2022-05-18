@@ -13,6 +13,16 @@ var (
 	db *gorm.DB
 )
 
+// func New(db *gorm.DB) *DB{
+// 	return &DB{
+// 		db:db
+// 	}
+// }
+
+// type DB struct{
+// 	db *gorm.DB
+// }
+
 func Connect() {
 	err := godotenv.Load()
 	if err != nil {
@@ -36,6 +46,10 @@ func Connect() {
 	db = d
 }
 
+// func (d DB) Test(ctx context.Context){
+// 	d.db.ConnPool.QueryContext(ctx, "SELECT * FROM users")
+// }
+
 func CloseDb(db *gorm.DB) {
 	dbSQL, err := db.DB()
 	if err != nil {
@@ -45,5 +59,7 @@ func CloseDb(db *gorm.DB) {
 }
 
 func GetDb() *gorm.DB {
+	Connect()
+	//db.AutoMigrate(&entity.User{}, entity.Test{})
 	return db
 }

@@ -11,7 +11,7 @@ import (
 )
 
 // Authorize JWT validate the token user giveni return 401 if not valid
-func Authorize(jwtService token.JWTService) gin.HandlerFunc {
+func Authorize(jwtService token.JwtService) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		authHeader := strings.Split(ctx.GetHeader("Authorization"), "Bearer")[1]
 		if authHeader == "" {

@@ -10,7 +10,7 @@ import (
 func LoadRoutes(superRoute *gin.RouterGroup) {
 	db := database.GetDb()
 
-	fmt.Println(db)
+	fmt.Println("Db conn : ", db)
 	/// Route Groups
-	//UserRoutes(superRoute, db)
+	AuthRoutes(superRoute, db)
 }

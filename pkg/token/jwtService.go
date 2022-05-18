@@ -1,34 +1,20 @@
 package token
 
 import (
-	"fmt"
 	"os"
 	"time"
-
+	"fmt"
 	"github.com/dgrijalva/jwt-go"
 )
-
-// Contract of the JWTService can do
-type JWTService interface {
-	GenerateToken(userId string) string
-	ValidateToken(token string) (*jwt.Token, error)
-}
 
 type jwtCustomClaim struct {
 	UserId string `json:"user_id"`
 	jwt.StandardClaims
 }
 
-type jwtService struct {
+type JwtService struct {
 	secretKey string
 	issuer    string
-}
-
-func NewJwtService() JWTService {
-	return &jwtService{
-		issuer:    "dfds",
-		secretKey: getSecretKey(),
-	}
 }
 
 func getSecretKey() string {
@@ -39,7 +25,7 @@ func getSecretKey() string {
 	return secretKey
 }
 
-func (j *jwtService) GenerateToken(userId string) string {
+func (j *JwtService) GenerateToken(userId string) string {
 	claims := &jwtCustomClaim{
 		userId,
 		jwt.StandardClaims{
@@ -56,7 +42,8 @@ func (j *jwtService) GenerateToken(userId string) string {
 	return t
 }
 
-func (j *jwtService) ValidateToken(token string) (*jwt.Token, error) {
+
+func (j *JwtService) ValidateToken(token string) (*jwt.Token, error) {
 	return jwt.Parse(token, func(t *jwt.Token) (interface{}, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signin method", t.Header["alg"])
